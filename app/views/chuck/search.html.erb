@@ -1,0 +1,66 @@
+
+
+<%= t('total') %>: <%=@total%> -- <%=@filter%>
+</br>
+---------------------------------------------------
+</br>
+
+<ol id='chuckList'>
+</ol>
+
+</br>
+---------------------------------------------------
+</br>
+
+<input type='button' onclick='loadPage(currentPage - 1);' value='<--'>
+<label id=lblPage></label>
+<input type='button' onclick='loadPage(currentPage + 1);' value='-->'>
+
+</br>
+</br>
+
+<%= button_to t('back'), root_path, method: 'get' %>
+
+
+<script>
+    const ELEMENTS_PAGE = 10;
+
+    var currentPage = 0;
+    var results = [];
+    var chuckList = document.getElementById("chuckList");
+    var lblPage = document.getElementById("lblPage");
+    var totalPages = Math.ceil(<%=@total%> / ELEMENTS_PAGE);
+    if(totalPages < 1) totalPages = 1;
+    
+    <% @results.each do |result| %>
+        results.push("<%= result['value'] %>");
+    <% end %>
+
+
+    function loadPage(ind) {
+        currentPage = ind;
+        if(currentPage < 0)currentPage = 0;
+        if(currentPage >= totalPages) currentPage = totalPages - 1;
+
+        while (chuckList.lastChild) {
+            chuckList.removeChild(chuckList.lastChild);
+        }
+
+        chuckList.start = (currentPage * ELEMENTS_PAGE) + 1;
+        lblPage.innerText = (currentPage+1) + "/" + totalPages;
+
+        for(var i=0; i<ELEMENTS_PAGE; i++){
+            var li = document.createElement("li");
+            
+            var text = results[(currentPage * ELEMENTS_PAGE) + i];
+            if(text != undefined){
+                li.innerHTML = text;
+            }
+
+            chuckList.appendChild(li);
+        }
+        
+    }
+
+    onload = loadPage(0);
+</script>

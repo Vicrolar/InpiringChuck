@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+    <body>
+        <h1>Here are your request results</h1>
+        
+        <p>
+
+            Request: type:<%=@type%>, word:<%=@word%>, category:<%=@category%>
+        </p>
+
+        <p>
+            <ol>
+            <% @results.each do |result| %>
+                <li><%= result['value'] %></li>
+            <% end %>
+
+            </ol>
+        </p>
+        
+    </body>
+</html>
